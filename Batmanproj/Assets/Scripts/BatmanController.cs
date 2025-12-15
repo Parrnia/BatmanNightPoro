@@ -8,6 +8,7 @@ public class BatmanController : MonoBehaviour
     public float normalMoveSpeed = 5f;
     public float boostMoveSpeed = 15f;
     public float rotateSpeed = 200f;
+    public AlertEffectController alertEffects;
 
     // ======================
     // State ها
@@ -91,28 +92,26 @@ public class BatmanController : MonoBehaviour
     // ======================
     // اثر State روی نور و صدا
     // ======================
-    void ApplyStateEffects()
+  void ApplyStateEffects()
+{
+    if (currentState == BatmanState.Normal)
     {
-        if (currentState == BatmanState.Normal)
-        {
-            environmentLight.intensity = 1f;
+        environmentLight.intensity = 1f;
 
-            if (alertAudio.isPlaying)
-                alertAudio.Stop();
-        }
-        else if (currentState == BatmanState.Stealth)
-        {
-            environmentLight.intensity = 0.3f;
-
-            if (alertAudio.isPlaying)
-                alertAudio.Stop();
-        }
-        else if (currentState == BatmanState.Alert)
-        {
-            environmentLight.intensity = 1.2f;
-
-            if (!alertAudio.isPlaying)
-                alertAudio.Play();
-        }
+        alertEffects.StopAlert();
     }
+    else if (currentState == BatmanState.Stealth)
+    {
+        environmentLight.intensity = 0.3f;
+
+        alertEffects.StopAlert();
+    }
+    else if (currentState == BatmanState.Alert)
+    {
+        environmentLight.intensity = 1.2f;
+
+        alertEffects.StartAlert();
+    }
+}
+
 }
