@@ -1,10 +1,12 @@
 using UnityEngine;
 
-public class BackgroundScroll : MonoBehaviour
+public class BackgroundScroller : MonoBehaviour
 {
-    public float speed = 0.05f;
-    Renderer rend;
-    Vector2 offset;
+    public float scrollSpeedX = 0.02f;
+    public float scrollSpeedY = 0f;
+
+    private Renderer rend;
+    private Vector2 offset;
 
     void Start()
     {
@@ -13,7 +15,11 @@ public class BackgroundScroll : MonoBehaviour
 
     void Update()
     {
-        offset.x += speed * Time.deltaTime;
-        rend.material.SetTextureOffset("_BaseMap", offset);
+        offset = rend.material.mainTextureOffset;
+        
+        offset.x += scrollSpeedX * Time.deltaTime;
+        offset.y += scrollSpeedY * Time.deltaTime;
+
+        rend.material.mainTextureOffset = offset;
     }
 }
